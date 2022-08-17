@@ -1,0 +1,81 @@
+Bài tập lý thuyết về SQL:
+1.Có mấy loại khoá của bảng? Định nghĩa và ý nghĩa của từng loại? Một bảng có thể có nhiều loại khoá không? Một bảng có thể có nhiều khoá cùng 1 loại hay không? 
+Các giá trị của khoá có thể là NULL hay không?
+
+- Khóa chính: chỉ tồn tại dữ liệu duy nhất, không trùng lặp, không rỗng (NOT NULL),
+ Một Table chỉ tồn tại duy nhất một khóa chính, mỗi khóa chính có thể được xác định từ một hay nhiều Column trong Table.
+- Khóa ngoại: Tham chiếu đến khóa chính của table khác, đảm bảo các ràng buộc UNIQUE, NOT NULL tương tự khóa chính.
+Khóa ngoại phải có cùng kiểu dữ liệu, cùng số lượng trường có sắp xếp tương ứng khóa chính
+-> Khóa ngoại giúp đảm bảo toàn vẹn dữ liệu, không có trường hợp tham chiếu đến dữ liệu không tồn tại.
+
+2.Có mấy loại Join, ý nghĩa của từng loại, lấy ví dụ minh hoạ.
+
+- Inner Join: Kết quả trả về là những bản ghi chung giữa 2 bảng
+	SELECT A.* FROM A INNER JOIN B ON A.ID=B.ID
+- Left Join : Kết quả trả về các dữ liệu nằm ở A và các bản ghi nằm trong B có trong A
+	SELECT A.* FROM A LEFT JOIN B ON A.ID=B.ID
+- Right Join : Kết quả trả về các dữ liệu nằm ở B và các bản ghi nằm trong A có trong B
+	SELECT A.* FROM A RIGHT JOIN B ON A.ID=B.ID
+- Full Join : trả về tất cả các dữ liệu nằm ở bảng A và B và giá trị NULL đặt ở những nơi không đáp ứng được điều kiện
+	SELECT A.* FROM A FULL JOIN B ON A.ID=B.ID
+
+3.Tìm hiểu về từ khoá UNION trong truy vấn dữ liệu? Có mấy loại UNION, cách sử dụng và ví dụ minh hoạ cho từng loại.
+- UNION kết hợp lại nhưng loại bỏ trùng nhau
+- UNION ALL kết hợp lại nhưng không loại bỏ trùng nhau
+
+Dùng để kết hợp các kết quả của các câu SELECT lại với nhau. Các câu SELECT cần có số cột giống nhau, cột tương ứng theo thứ tự phải cùng kiểu dữ liệu
+
+4.Tìm hiểu về Nested Query, Correlated Query. Phân biệt, lấy ví dụ minh hoạ.
+
+Truy vấn lồng là những câu lệnh mà trong thành phần WHERE có chứa thêm một câu lệnh SELECT khác nữa. 
+Câu lệnh này thường gặp khi dữ liệu cần thiết phải duyệt qua nhiều lần
+
++ Lồng phân cấp: Mệnh đề WHERE của câu truy vấn con không tham chiếu đến thuộc tính các mối quan hệ trong mệnh đề FROM ở câu truy vấn cha. Khi thực hiện, câu truy vấn con sẽ được thực hiện trước.
+
++ Lồng tương quan: Mệnh đề WHERE của câu truy vấn con tham chiếu ít nhất một thuộc tính của các quan hệ trong mệnh đề FROM ở câu truy vấn cha.
+
+
+5.Tìm hiểu về Index? Phân biệt global index và local index? Khi viết câu lệnh truy vấn, muốn các index được sử dụng phải chú ý gì? Lấy ví dụ minh hoạ.
+
+- Chỉ mục (INDEX) trong SQL sử dụng để tăng nhanh thời gian và hiệu suất truy xuất dữ liệu.
+Hiểu đơn giản, một chỉ mục là một con trỏ chỉ tới từng giá trị xuất hiện trong bảng/cột được đánh chỉ mục, giống như mục lục của cuốn sách
+- Global index: là mối quan hệ một-nhiều, cho phép một index partition ánh xạ tới nhiêu phân vùng trong bảng. Global index có thể được phân vùng bằng phương thức phạm vi (the range) hoặc hash method và có nó có thể được xác định trên bất kỳ loại bảng nào được phân vùng hoặc không phân vùng.
+- Local index: là ánh xạ 1-1 giữa phân vùng index và phân vùng table. Nói chung, các local indexcho phép cách tiếp cận “divide and conquer” rõ ràng hơn để tạo ra các kế hoạch thực thi SQL nhanh với việc cắt bớt phân vùng .
+
+http://www.dba-oracle.com/t_global_local_partitioned_index
+
+- Lưu ý sử dụng Index: 
++ không nên tạo index trên các cột có kiểu dữ liệu quá lớn vì để sử dụng index SQL server cần chi phí để quản lý một vùng nhớ -> ảnh hưởng đến tốc độ truy xuất dữ liệu
++ Đối với các khóa primary key và unique key từ khóa unique được tự động thêm khi tạo index.
++ Nên chọn lựa giữa yêu cầu query, và insert, update để có một index hợp lý. 
+
+6.Tìm hiểu về partition của bảng, nên tạo partition cho bảng trong trường hợp nào? Lấy ví dụ minh hoạ?
+
+- Đây là kỹ thuật phân chia bảng thành từng đoạn nhằm quản lý hiệu quả cơ sở dữ liệu với dung lượng lớn.
+Phân vùng cho phép các thao tác quản lý dữ liệu như load dữ liệu, create và rebuild indexes, sao lưu/phục hồi ở mức phân vùng chứ không cần thao tác trên toàn bộ bảng. 
+- Điều này giúp cải thiện hiệu suất truy vấn, giảm đáng kể thời gian cho những hoạt động đó.
+
+Ví dụ sau, bảng sales_list được phân vùng bảng bán hàng theo khu vực:
+
+CREATE TABLE sales_list
+(salesman_id NUMBER(5), 
+salesman_name VARCHAR2(30),
+sales_state VARCHAR2(20),
+sales_amount NUMBER(10), 
+sales_date DATE)
+PARTITION BY LIST(sales_state)
+(
+PARTITION sales_west VALUES('California', 'Hawaii'),
+PARTITION sales_east VALUES ('New York', 'Virginia', 'Florida'),
+PARTITION sales_central VALUES('Texas', 'Illinois')
+PARTITION sales_other VALUES(DEFAULT)
+);
+
+7.Phân biệt câu lệnh delete và truncate? Cách sử dụng?
+
+- DELETE : Xóa một hay tất cả dòng trong một bảng theo một điều kiện nhất định, dữ liệu có thể phục hồi lại
++ Xóa một dòng trong bảng : DELETE FROM ten_bang [WHERE dieu_kien];
++ Xóa tất cả các dòng trong bảng : DELETE FROM ten_bang;
+
+- TRUNCATE : Xóa toàn bộ các dòng của bảng, giải phóng bộ nhớ và không thể phục hồi lại
+	TRUNCATE TABLE ten_bang
