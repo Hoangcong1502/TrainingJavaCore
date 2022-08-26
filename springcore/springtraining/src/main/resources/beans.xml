@@ -1,14 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--<beans default-init-method="initMessage" default-destroy-method="relase"-->
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@27.118.22.14:1521:orcl"/>
+        <property name="username" value="SCOTT"/>
+        <property name="password" value="SCOTT"/>
+    </bean>
+<!--    <bean id="studentJdbcDAO" class="com.example.jdbc.StudentJdbcDAO">-->
+<!--        <property name="dataSource" ref="dataSource"/>-->
+<!--    </bean>-->
 
-    <bean id="helloJavaClazz" class="springtraining.unit1.HelloClass" init-method="initMessage">
-<!--        <property name="message" value="Welcome to Java Clazz" />-->
+<!--    <bean id="helloWorld" class="springtraining.unit1.HelloWorld" >-->
+<!--        <constructor-arg index="0" value=""/>-->
+<!--        <constructor-arg index="1" ref=""/>-->
+<!--        <property name="message" value="Hello Sub Bean!" />-->
+<!--    </bean>-->
+    
+    <bean id="helloJavaClazz" class="springtraining.unit1.HelloClazz" init-method="initMessage">
+        <constructor-arg type="int" value="5"/>
+        <property name="message" value="hello bean inheritance"/>
     </bean>
 
-    <bean id="helloJavaClazz" class="springtraining.unit1.HelloClass" scope="singleton">
-                <property name="message" value="Welcome to Java Clazz" />
+    <bean id="helloJavaClazz2" class="springtraining.unit1.HelloClazz" init-method="initMessage">
+        <constructor-arg ref="helloJavaClazz" />
+        <property name="message" value="Hello Bean Inheritance!"/>
     </bean>
 
+    <bean id="startEventHandler" class="springtraining.unit1.ContextStartEventHandler"/>
+
+    <bean class="springtraining.unit1.InitSampleBean">
+        <constructor-arg ref="helloJavaClazz" />
+    </bean>
+    <bean id="sampleTemplate" abstract="true">
+        <property name="message" value="Template say Hello!"/>
+    </bean>
+    <bean id="helloWorld" class="springtraining.unit1.HelloWorld"
+          parent="sampleTemplate">
+        <constructor-arg type="java.lang.String" index="0" value="Thuan"/>
+        <constructor-arg ref="helloJavaClazz"/>
+        <property name="clazz">
+            <bean id="helloJavaClazz" class="springtraining.unit1.HelloClazz">
+                <property name="clazzes">
+                    <list>
+                        <ref bean="jee01"/>
+                        <null/>
+                    </list>
+                </property>
+                <property name="message" value="Hello Annotation based Configuration!"/>
+            </bean>
+        </property>
+    </bean>
+    <bean id="clazz" class="springtraining.unit1.HelloClazz"/>
+    <bean id="jee01" class="springtraining.unit1.JavaClazz">
+        <property name="students">
+            <map>
+                <entry key="Nguyen Van A" value="23"/>
+                <entry key="Nguyen Van B" value="18"/>
+                <entry key="Nguyen Van C" value="27"/>
+                <entry key="Nguyen Van D" value="34"/>
+            </map>
+        </property>
+    </bean>
 </beans>
