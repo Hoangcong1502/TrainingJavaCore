@@ -1,0 +1,12 @@
+
+q
+java:S1192"ODefine a constant instead of duplicating this literal "helloJavaClazz" 3 times.(›ÿÂíúÿÿÿÿ8ûÂ‹å®0
+W
+java:S1854":Remove this useless assignment to local variable "clazz1".(ÕÈÄé8šÃ‹å®0
+U	java:S106"9Replace this use of System.out or System.err by a logger.(’ù¼Ä8ªÃ‹å®0
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(«Ë³«şÿÿÿÿ8ªÃ‹å®0
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Óæ‹ßûÿÿÿÿ8ªÃ‹å®0
+U	java:S106"9Replace this use of System.out or System.err by a logger.(¢°÷Â8ªÃ‹å®0
+H
+java:S1481"+Remove this unused "clazz1" local variable.(ÕÈÄé8ªÃ‹å®0
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(œÿÙÛüÿÿÿÿ8ªÃ‹å®0
