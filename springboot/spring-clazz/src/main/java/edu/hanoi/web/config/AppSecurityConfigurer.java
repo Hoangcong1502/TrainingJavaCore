@@ -34,16 +34,17 @@ public class AppSecurityConfigurer extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/home/user/**").hasRole("USER")
-                .anyRequest().authenticated().and()
+                .antMatchers("/user/**").hasRole("USER")
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
-                .loginPage("/home/form-login")
+                .loginPage("/form-login")
                 .permitAll()
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .loginProcessingUrl("/home/login")
-                .failureUrl("/home/login?error")
-                .defaultSuccessUrl("/home/login");
+                .loginProcessingUrl("/login")
+                .failureUrl("/login?error")
+                .defaultSuccessUrl("/login");
     }
 
 }

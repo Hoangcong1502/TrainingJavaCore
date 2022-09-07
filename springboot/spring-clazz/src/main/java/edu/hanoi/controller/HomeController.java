@@ -39,33 +39,28 @@ public class HomeController {
         return new ModelAndView("login");
     }
     @RequestMapping(value = "login")
-    public ModelAndView login(@RequestParam(value = "error",required = false)String error){
+    public ModelAndView login(@RequestParam(value = "error",required = false)String error) {
         ModelAndView mv = new ModelAndView();
-        if(error == null){
-            mv.setViewName("index");
-            System.out.println("login success!");
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            mv.addObject("message","Hello user: "+auth.getName());
-            logger.info("Login success "+auth.getName());
-        } else {
+        if (error != null) {
             mv.setViewName("login");
-            mv.addObject("error","sai ten hoac mk");
+            mv.addObject("error", "Sai tên hoặc mật khẩu!");
         }
         return mv;
     }
     @RequestMapping("user")
     public ModelAndView forUser(){
         ModelAndView mv = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         mv.setViewName("index");
-        mv.addObject("message","This is protected page!");
+        mv.addObject("message","HelloUser " + auth.getName());
         return mv;
     }
     @RequestMapping("logout")
     public String logout() throws Exception{
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null) {
+        if(auth != null) {
             new SecurityContextLogoutHandler().logout(request,response,auth);
         }
-        return "redirect:/home/form-login";
+        return "redirect:/";
     }
 }
