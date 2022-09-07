@@ -1,9 +1,8 @@
 package edu.hanoi.controller;
 
-import edu.hanoi.jazz.ContextStartEventHandler;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -14,8 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
-import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/home")
@@ -52,7 +50,7 @@ public class HomeController {
         ModelAndView mv = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         mv.setViewName("index");
-        mv.addObject("message","HelloUser " + auth.getName());
+        mv.addObject("message","Hello User " + auth.getName());
         return mv;
     }
     @RequestMapping("logout")

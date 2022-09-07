@@ -18,16 +18,16 @@ public class ContextStartEventHandler implements ApplicationListener<ContextStar
     @Override
     public void onApplicationEvent(ContextStartedEvent event) {
         System.out.println("b1");
-        try{
+        try {
             createTable("congnh_group","create table congnh_group (\n" +
                     "    id number(4) primary key,\n" +
                     "    name varchar2(100)\n" +
                     ")");
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e,e);
             e.printStackTrace();
         }
-        LOGGER.info("-- Context start application "+dataSource);
+        LOGGER.info("Context start application " + dataSource);
     }
 
     private void createTable(String name, String script) throws SQLException {
